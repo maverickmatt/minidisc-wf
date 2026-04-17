@@ -1,1 +1,1 @@
-A roulette wheel themed watchface for round Pebble smartwatches
+A Minidisc themed watchface for Pebble smartwatches
