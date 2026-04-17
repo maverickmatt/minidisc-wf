@@ -1,0 +1,57 @@
+{
+    "author": "Grabber5.0",
+    "dependencies": {},
+    "keywords": [],
+    "name": "minidisc-wf",
+    "pebble": {
+        "displayName": "Minidisc",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "compatibility": "2.7",
+                    "file": "fonts/Jersey10-Regular.ttf",
+                    "name": "FONT_JERSEY_56",
+                    "type": "font"
+                },
+                {
+                    "compatibility": "2.7",
+                    "file": "fonts/Jersey10-Regular.ttf",
+                    "name": "FONT_JERSEY_48",
+                    "type": "font"
+                },
+                 {
+                    "compatibility": "2.7",
+                    "file": "fonts/Jersey10-Regular.ttf",
+                    "name": "FONT_JERSEY_24",
+                    "type": "font"
+                },
+               {
+                    "file": "images/minidisc-clear-background.png",
+                    "name": "MINIDISC_CLEAR",
+                    "targetPlatforms": [
+                        "basalt",
+                        "chalk",
+                        "emery",
+                        "gabbro"
+                    ],
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "chalk",
+            "gabbro",
+            "basalt",
+            "emery"
+        ],
+    	"uuid": "5f039b33-809b-456d-8d98-ec90796e6cfe",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.0.0"
+}
