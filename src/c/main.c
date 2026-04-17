@@ -1,6 +1,7 @@
 #include <pebble.h>
 
 static Window *s_main_window;
+static TextLayer *s_label_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
 static TextLayer *s_batt_layer;
@@ -64,13 +65,13 @@ static void main_window_load(Window *window) {
   
   // Load custom fonts
 //  #if PBL_DISPLAY_HEIGHT == 260
-    s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_56));
+    // s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_56));
 //  #elif PBL_DISPLAY_HEIGHT == 228  
-//    s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_48));
+  //  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_48));
 //  #endif
   s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_24));
   // Load system font
-  //s_time_font = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
+  s_time_font = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   //s_date_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
   status_font = fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD); 
 
@@ -83,9 +84,15 @@ static void main_window_load(Window *window) {
   // Battery % below date, but deliberately off center vertically
   int batt_y = date_y + date_height - 5;
 
-  // Create the time TextLayer — centered in the screen
+  //Label layer
+  s_label_layer = text_layer_create( GRect(16, 86, 98, 57));
+  text_layer_set_background_color(s_label_layer, GColorWhite);
+  text_layer_set_text_color(s_label_layer, GColorBlack);
+  text_layer_set_font(s_label_layer, status_font);
+
+   // Create the time TextLayer — centered in the screen
   //s_time_layer = text_layer_create( GRect(0, time_y, bounds.size.w, 60));
-  s_time_layer = text_layer_create( GRect(16, 64, 96, 55));
+  s_time_layer = text_layer_create( GRect(15, 80, 99, 55));
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_font(s_time_layer, s_time_font);
@@ -108,6 +115,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_batt_layer, GTextAlignmentCenter);
 
   // Add layers to the Window
+  layer_add_child(window_layer, text_layer_get_layer(s_label_layer));
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
   layer_add_child(window_layer, text_layer_get_layer(s_batt_layer));
@@ -121,12 +129,13 @@ static void main_window_unload(Window *window) {
   bitmap_layer_destroy(mblyr);
 
   // Destroy TextLayers
+  text_layer_destroy(s_label_layer);
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_date_layer);
   text_layer_destroy(s_batt_layer);
 
   // Unload custom fonts
-  fonts_unload_custom_font(s_time_font);
+  // fonts_unload_custom_font(s_time_font);
   fonts_unload_custom_font(s_date_font);
 }
 
