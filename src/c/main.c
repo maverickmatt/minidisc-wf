@@ -23,9 +23,14 @@ static void update_time() {
   static char s_time_buffer[8];
   strftime(s_time_buffer, sizeof(s_time_buffer), clock_is_24h_style() ?
                                                     "%H:%M" : "%I:%M", tick_time);
-
+  static char s_time2[8];
+  if (s_time_buffer[0] == '0') {
+    strcpy(s_time2, s_time_buffer + 1);
+  } else {
+    strcpy(s_time2, s_time_buffer);
+  }
   // Display this time on the TextLayer
-  text_layer_set_text(s_time_layer, s_time_buffer);
+  text_layer_set_text(s_time_layer, s_time2);//s_time_buffer);
 
   // Write the current date into a buffer
   static char s_date_buffer[16];
@@ -69,9 +74,15 @@ static void main_window_load(Window *window) {
 //  #elif PBL_DISPLAY_HEIGHT == 228  
   //  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_48));
 //  #endif
-  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_24));
-  // Load system font
+  //s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_JERSEY_24));
+  #if PBL_DISPLAY_HEIGHT == 228
   s_time_font = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_20));
+  #else
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_30));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_18));
+  #endif
+
   //s_time_font = fonts_get_system_font(FONT_KEY_LECO_28_LIGHT_NUMBERS);
   
   //s_date_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
@@ -83,7 +94,7 @@ static void main_window_load(Window *window) {
   int time_y = (bounds.size.h / 2) - (block_height / 2) - 10;
   int date_y = time_y + time_height;
   // Battery % below date, but deliberately off center vertically
-  int batt_y = date_y + date_height - 5;
+  // int batt_y = date_y + date_height - 5;
 
   //Label layer
   #if PBL_DISPLAY_HEIGHT == 228
@@ -91,7 +102,7 @@ static void main_window_load(Window *window) {
   #elif PBL_DISPLAY_HEIGHT == 260
   s_label_layer = text_layer_create( GRect(57, 107, 84, 47));
   #elif PBL_DISPLAY_HEIGHT == 180
-  s_label_layer = text_layer_create( GRect(16, 86, 98, 57));
+  s_label_layer = text_layer_create( GRect(23, 70, 79, 41));
   #elif PBL_DISPLAY_HEIGHT == 168
   s_label_layer = text_layer_create( GRect(3, 50, 79, 38));
   #endif
@@ -103,13 +114,13 @@ static void main_window_load(Window *window) {
    // Create the time TextLayer — centered in the screen
   //s_time_layer = text_layer_create( GRect(0, time_y, bounds.size.w, 60));
   #if PBL_DISPLAY_HEIGHT == 228
-  s_time_layer = text_layer_create( GRect(15, 80, 99, 55));
+  s_time_layer = text_layer_create( GRect(15, 81, 99, 55));
   #elif PBL_DISPLAY_HEIGHT == 260
-  s_time_layer = text_layer_create( GRect(57, 100, 84, 47));
+  s_time_layer = text_layer_create( GRect(57, 101, 84, 47));
   #elif PBL_DISPLAY_HEIGHT == 180
-  s_time_layer = text_layer_create( GRect(15, 80, 99, 55));
+  s_time_layer = text_layer_create( GRect(22, 63, 81, 38));//15, 80, 99, 55
   #else
-  s_time_layer = text_layer_create( GRect(1, 47, 84, 38));
+  s_time_layer = text_layer_create( GRect(0, 50, 84, 38));
   #endif
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
@@ -119,11 +130,11 @@ static void main_window_load(Window *window) {
   // Create the date TextLayer — just below the time
   //s_date_layer = text_layer_create( GRect(0, date_y, bounds.size.w, 30));
   #if PBL_DISPLAY_HEIGHT == 228
-  s_date_layer = text_layer_create( GRect(16, 114, 96, 30));
+  s_date_layer = text_layer_create( GRect(16, 117, 96, 30));
   #elif PBL_DISPLAY_HEIGHT == 260
-  s_date_layer = text_layer_create( GRect(57, 128, 84, 30));
+  s_date_layer = text_layer_create( GRect(57, 131, 84, 30));
   #elif PBL_DISPLAY_HEIGHT == 180
-  s_date_layer = text_layer_create( GRect(16, 114, 96, 30));
+  s_date_layer = text_layer_create( GRect(20, 90, 84, 30));
   #else
   s_date_layer = text_layer_create( GRect(0, 137, 144, 30));
   #endif
@@ -141,9 +152,9 @@ static void main_window_load(Window *window) {
   #if PBL_DISPLAY_HEIGHT == 228
   s_batt_layer = text_layer_create( GRect(155, 124, 40, 26));
   #elif PBL_DISPLAY_HEIGHT == 260
-  s_batt_layer = text_layer_create( GRect(173, 138, 40, 20));
+  s_batt_layer = text_layer_create( GRect(172, 138, 40, 20));
   #elif PBL_DISPLAY_HEIGHT == 180
-  s_batt_layer = text_layer_create( GRect(118, 90, 40, 20));
+  s_batt_layer = text_layer_create( GRect(116, 91, 40, 20));
   #else
   s_batt_layer = text_layer_create( GRect(100, 73, 40, 26));
   #endif
@@ -173,7 +184,9 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_batt_layer);
 
   // Unload custom fonts
-  // fonts_unload_custom_font(s_time_font);
+  #if PBL_DISPLAY_HEIGHT == 228
+  fonts_unload_custom_font(s_time_font);
+  #endif
   fonts_unload_custom_font(s_date_font);
 }
 
