@@ -12,6 +12,11 @@
             "media": [
                 {
                     "file": "fonts/Figtree-SemiBold.ttf",
+                    "name": "FONT_METROPOLIS_16",
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/Figtree-SemiBold.ttf",
                     "name": "FONT_METROPOLIS_18",
                     "type": "font"
                 },

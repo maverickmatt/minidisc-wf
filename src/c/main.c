@@ -78,6 +78,9 @@ static void main_window_load(Window *window) {
   #if PBL_DISPLAY_HEIGHT == 228
   s_time_font = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_20));
+  #elif PBL_DISPLAY_HEIGHT == 180
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_30));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_16));
   #else
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_30));
   s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_18));
@@ -134,7 +137,7 @@ static void main_window_load(Window *window) {
   #elif PBL_DISPLAY_HEIGHT == 260
   s_date_layer = text_layer_create( GRect(57, 131, 84, 30));
   #elif PBL_DISPLAY_HEIGHT == 180
-  s_date_layer = text_layer_create( GRect(20, 90, 84, 30));
+  s_date_layer = text_layer_create( GRect(20, 92, 84, 30));
   #else
   s_date_layer = text_layer_create( GRect(0, 137, 144, 30));
   #endif
