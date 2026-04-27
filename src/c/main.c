@@ -34,7 +34,11 @@ static void update_time() {
 
   // Write the current date into a buffer
   static char s_date_buffer[16];
+  #if PBL_DISPLAY_HEIGHT == 180
+  strftime(s_date_buffer, sizeof(s_date_buffer), "%b %d", tick_time);
+  #else
   strftime(s_date_buffer, sizeof(s_date_buffer), "%a %b %d", tick_time);
+  #endif
 
   // Display the date
   text_layer_set_text(s_date_layer, s_date_buffer);
