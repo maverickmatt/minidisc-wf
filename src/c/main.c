@@ -34,11 +34,14 @@ static void update_time() {
 
   // Write the current date into a buffer
   static char s_date_buffer[16];
+  /* Disabled, as text is still truncating on emery and gabbro with dow shown
   #if PBL_DISPLAY_HEIGHT == 180
   strftime(s_date_buffer, sizeof(s_date_buffer), "%b %d", tick_time);
   #else
   strftime(s_date_buffer, sizeof(s_date_buffer), "%a %b %d", tick_time);
   #endif
+  */
+  strftime(s_date_buffer, sizeof(s_date_buffer), "%b %d", tick_time);
 
   // Display the date
   text_layer_set_text(s_date_layer, s_date_buffer);
