@@ -194,10 +194,24 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_batt_layer);
 
   // Unload custom fonts
+/*
   #if PBL_DISPLAY_HEIGHT == 228
+  s_time_font = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_20));
+  #elif PBL_DISPLAY_HEIGHT == 180
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_30));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_16));
+  #else
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_30));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_METROPOLIS_18));
+  #endif
+*/
+  #if PBL_DISPLAY_HEIGHT == 228
+  fonts_unload_custom_font(s_date_font);
+  #else
+  fonts_unload_custom_font(s_date_font);
   fonts_unload_custom_font(s_time_font);
   #endif
-  fonts_unload_custom_font(s_date_font);
 }
 
 static void init() {
